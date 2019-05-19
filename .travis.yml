@@ -1,15 +1,18 @@
 language: cpp
 sudo: required
-dist: ixenial
+dist: xenial
 compiler:
-- clang
+  - clang
 os:
-- linux
+  - linux
 before_install:
-- echo $LANG
-- echo $LC_ALL
+  - echo $LANG
+  - echo $LC_ALL
 script:
-- if [ $TRAVIS_OS_NAME == linux ]; then make -p build && cd build && cmake .. && make; fi
+  - make -p build
+  - cd build
+  - cmake ..
+  - make
 after_success:
 branches:
   only:
