@@ -1,0 +1,19 @@
+language: cpp
+sudo: required
+dist: ixenial
+compiler:
+- clang
+os:
+- linux
+before_install:
+- echo $LANG
+- echo $LC_ALL
+script:
+- if [ $TRAVIS_OS_NAME == linux ]; then make -p build && cd build && cmake .. && make; fi
+after_success:
+branches:
+  only:
+  - master
+  - "/^v\\d+\\./"
+notifications:
+  email: false
