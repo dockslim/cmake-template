@@ -1,23 +1,28 @@
-language: cpp
-sudo: required
-dist: xenial
-compiler:
-  - clang
-os:
-  - linux
+env:
+  global:
+    - LRS_BUILD_CONFIG=Debug
+    - LRS_RUN_CONFIG=Release
+matrix:
+  include:
+    - name: "Linux Testing - cpp"
+      os: linux
+      language: cpp
+      sudo: required
+      dist: xenial
+      env: RS_CPP_TEST=true
+      script:
+        - cmake .. 
+        - cmake --build . --config $LRS_RUN_CONFIG -- -j4
+
 before_install:
-  - echo $LANG
-  - echo $LC_ALL
-script:
-  - make -p build
-  - cd build
-  - cmake ..
-  - make
-after_success:
-branches:
-  only:
-  - master
-  - develop
-  - "/^v\\d+\\./"
-notifications:
-  email: false
+  - mkdir build && cd build
+
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+      sudo apt-get update;
+      sudo apt-get install -qq build-essential;
+      sudo apt-get install gcc-5 g++-5;
+      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5;
+    fi
+
