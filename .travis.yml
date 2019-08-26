@@ -8,7 +8,7 @@ matrix:
       os: linux
       language: cpp
       sudo: required
-      dist: xenial
+      dist: bionic
       env: RS_CPP_TEST=true
       script:
         - cmake .. 
@@ -19,10 +19,7 @@ before_install:
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
       sudo apt-get update;
       sudo apt-get install -qq build-essential;
-      sudo apt-get install gcc-5 g++-5;
-      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5;
     fi
 
