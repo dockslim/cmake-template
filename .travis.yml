@@ -1,0 +1,25 @@
+env:
+  global:
+    - LRS_BUILD_CONFIG=Debug
+    - LRS_RUN_CONFIG=Release
+matrix:
+  include:
+    - name: "Linux Testing - cpp"
+      os: linux
+      language: cpp
+      sudo: required
+      dist: bionic
+      env: RS_CPP_TEST=true
+      script:
+        - cmake .. 
+        - cmake --build . --config $LRS_RUN_CONFIG -- -j4
+
+before_install:
+  - mkdir build && cd build
+
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo apt-get update;
+      sudo apt-get install -qq build-essential;
+    fi
+
